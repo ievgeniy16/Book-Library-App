@@ -3,6 +3,7 @@ import "./BookForm.css";
 // для отправки объекта в store -> redux
 import { useDispatch } from "react-redux";
 import { addBook } from "../../redux/books/actionCreators";
+import { v4 as uuidv4 } from "uuid";
 
 const BookForm = () => {
   const [title, setTitle] = useState("");
@@ -21,8 +22,8 @@ const BookForm = () => {
       const book = {
         title: title,
         author: author,
+        id: uuidv4(),
       };
-
 
       dispatch(addBook(book));
       setTitle("");
