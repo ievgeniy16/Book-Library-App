@@ -1,9 +1,14 @@
 import { useState } from "react";
-import './BookForm.css';
+import "./BookForm.css";
+// для отправки объекта в store -> redux
+import { useDispatch } from "react-redux";
+import { addBook } from "../../redux/books/actionCreators";
 
 const BookForm = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
+  // hook useDispatch()
+  const dispatch = useDispatch();
 
   // если форма большая, то имеет смысл хранить данные в одном объекте
   // const [formData, setFormData] = useState("");
@@ -11,14 +16,18 @@ const BookForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if(title && author) {
-        // dispatch action from Redux
-        console.log(title, author);
+    if (title && author) {
+      // dispatch action from Redux
+      const book = {
+        title: title,
+        author: author,
+      };
 
-        setTitle('');
-        setAuthor('');
+
+      dispatch(addBook(book));
+      setTitle("");
+      setAuthor("");
     }
-
   };
 
   return (
