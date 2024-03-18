@@ -19,6 +19,7 @@ const BookForm = () => {
     const randomBookWithID = {
       ...randomBook,
       id: uuidv4(),
+      isFavorite: false,
     };
 
     // send redux store
@@ -37,6 +38,7 @@ const BookForm = () => {
         title: title,
         author: author,
         id: uuidv4(),
+        isFavorite: false,
       };
 
       dispatch(addBook(book));
