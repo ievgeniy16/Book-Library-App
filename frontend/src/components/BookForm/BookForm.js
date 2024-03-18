@@ -3,8 +3,9 @@ import "./BookForm.css";
 // для отправки объекта в store -> redux
 import { useDispatch } from "react-redux";
 import { addBook } from "../../redux/books/actionCreators";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import booksData from "../../data/books.json";
+import createBookWithID from "../../utils/createBookWithID";
 
 const BookForm = () => {
   const [title, setTitle] = useState("");
@@ -16,11 +17,14 @@ const BookForm = () => {
     const randomIndex = Math.floor(Math.random() * booksData.length);
     const randomBook = booksData[randomIndex];
 
-    const randomBookWithID = {
-      ...randomBook,
-      id: uuidv4(),
-      isFavorite: false,
-    };
+    // const randomBookWithID = {
+    //   ...randomBook,
+    //   id: uuidv4(),
+    //   isFavorite: false,
+    // };
+
+    // то же самое что и сверху
+    const randomBookWithID = createBookWithID(randomBook);
 
     // send redux store
     dispatch(addBook(randomBookWithID));
@@ -33,13 +37,15 @@ const BookForm = () => {
     event.preventDefault();
 
     if (title && author) {
-      // dispatch action from Redux
-      const book = {
-        title: title,
-        author: author,
-        id: uuidv4(),
-        isFavorite: false,
-      };
+      // const book = {
+      //   title: title,
+      //   author: author,
+      //   id: uuidv4(),
+      //   isFavorite: false,
+      // };
+
+      // то же самое что и сверху
+      const book = createBookWithID({ title, author });
 
       dispatch(addBook(book));
       setTitle("");
