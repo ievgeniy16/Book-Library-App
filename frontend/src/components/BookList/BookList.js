@@ -3,13 +3,19 @@ import "./BookList.css";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteBook, toggleFavorite } from "../../redux/books/actionCreators";
 import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
-import { selectTitleFilter } from "../../redux/slices/filterSlice";
+import {
+  selectTitleFilter,
+  selectAuthorFilter,
+} from "../../redux/slices/filterSlice";
 
 const BookList = () => {
   // все книги
   const books = useSelector((state) => state.books);
-  // книги которые мы фильтрируем по поисковику
+  // книги которые мы фильтрируем по title
   const titleFilter = useSelector(selectTitleFilter);
+  // книги которые мы фильтрируем по author
+  const authorFilter = useSelector(selectAuthorFilter);
+
   const dispatch = useDispatch();
 
   const handleDeleteBook = (id) => {
@@ -24,7 +30,10 @@ const BookList = () => {
     const matchesTitle = book.title
       .toLowerCase()
       .includes(titleFilter.toLowerCase());
-    return matchesTitle;
+    const matchesAuthor = book.author
+      .toLowerCase()
+      .includes(authorFilter.toLowerCase());
+    return matchesTitle && matchesAuthor;
   });
 
   return (
