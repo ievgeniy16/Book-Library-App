@@ -6,6 +6,7 @@ import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
 import {
   selectTitleFilter,
   selectAuthorFilter,
+  selectOnlyFavoriteFilter,
 } from "../../redux/slices/filterSlice";
 
 const BookList = () => {
@@ -15,6 +16,8 @@ const BookList = () => {
   const titleFilter = useSelector(selectTitleFilter);
   // книги которые мы фильтрируем по author
   const authorFilter = useSelector(selectAuthorFilter);
+  // если галочка стоит то будет true а так false
+  const onlyFavoriteFilter = useSelector(selectOnlyFavoriteFilter);
 
   const dispatch = useDispatch();
 
@@ -33,7 +36,9 @@ const BookList = () => {
     const matchesAuthor = book.author
       .toLowerCase()
       .includes(authorFilter.toLowerCase());
-    return matchesTitle && matchesAuthor;
+    const matchesFavorite = onlyFavoriteFilter ? book.isFavorite : true;
+
+    return matchesTitle && matchesAuthor && matchesFavorite;
   });
 
   return (

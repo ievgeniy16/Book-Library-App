@@ -6,6 +6,8 @@ import {
   resetFilters,
   setAuthorFilter,
   selectAuthorFilter,
+  setOnlyFavoriteFilter,
+  selectOnlyFavoriteFilter,
 } from "../../redux/slices/filterSlice";
 // useDispatch для отправки действие в redux store
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +19,7 @@ const Filter = () => {
   const titleFilter = useSelector(selectTitleFilter);
   // подписываемся на изменение состояние поля
   const authorFilter = useSelector(selectAuthorFilter);
+  const onlyFavoriteFilter = useSelector(selectOnlyFavoriteFilter);
 
   const handleTitleFilterChange = (e) => {
     dispatch(setTitleFilter(e.target.value));
@@ -24,6 +27,10 @@ const Filter = () => {
 
   const handleAuthorFilterChange = (e) => {
     dispatch(setAuthorFilter(e.target.value));
+  };
+
+  const handleOnlyFavoriteFilterChange = () => {
+    dispatch(setOnlyFavoriteFilter());
   };
 
   // обнуляем поле фильтрс
@@ -50,6 +57,16 @@ const Filter = () => {
             onChange={handleAuthorFilterChange}
             value={authorFilter}
           />
+        </div>
+        <div className="filter-group">
+          <label>
+            <input
+              type="checkbox"
+              checked={onlyFavoriteFilter}
+              onChange={handleOnlyFavoriteFilterChange}
+            />
+            Only Favorite
+          </label>
         </div>
         <button type="button" onClick={handleResetFilters}>
           Reset Filters
