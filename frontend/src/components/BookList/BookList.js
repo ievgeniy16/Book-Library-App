@@ -1,7 +1,9 @@
 import "./BookList.css";
 // с помошью хука useSelector() мы подписываемся на изменения состояния store
 import { useSelector, useDispatch } from "react-redux";
-import { deleteBook, toggleFavorite } from "../../redux/books/actionCreators";
+// import { deleteBook, toggleFavorite } from "../../redux/books/actionCreators";
+// меняем путь нового redux slice для функции
+import { deleteBook, toggleFavorite, selectBooks } from "../../redux/slices/booksSlice";
 import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
 import {
   selectTitleFilter,
@@ -11,7 +13,9 @@ import {
 
 const BookList = () => {
   // все книги
-  const books = useSelector((state) => state.books);
+  // const books = useSelector((state) => state.books);
+  // после того как мы измении тип redux мы просто вставим гтовую функцию
+  const books = useSelector(selectBooks);
   // книги которые мы фильтрируем по title
   const titleFilter = useSelector(selectTitleFilter);
   // книги которые мы фильтрируем по author

@@ -2,7 +2,9 @@ import { useState } from "react";
 import "./BookForm.css";
 // для отправки объекта в store -> redux
 import { useDispatch } from "react-redux";
-import { addBook } from "../../redux/books/actionCreators";
+// import { addBook } from "../../redux/books/actionCreators";
+// меняем путь нового redux slice для функции
+import { addBook } from "../../redux/slices/booksSlice";
 // import { v4 as uuidv4 } from "uuid";
 import booksData from "../../data/books.json";
 import createBookWithID from "../../utils/createBookWithID";
