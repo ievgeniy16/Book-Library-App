@@ -17,6 +17,8 @@ const BookForm = () => {
   // hook useDispatch()
   const dispatch = useDispatch();
 
+
+  // 1.добавление книги случайным образом
   const handleAddRandomBook = () => {
     const randomIndex = Math.floor(Math.random() * booksData.length);
     const randomBook = booksData[randomIndex];
@@ -28,7 +30,7 @@ const BookForm = () => {
     // };
 
     // то же самое что и сверху
-    const randomBookWithID = createBookWithID(randomBook);
+    const randomBookWithID = createBookWithID(randomBook, 'random');
 
     // send redux store
     dispatch(addBook(randomBookWithID));
@@ -37,6 +39,7 @@ const BookForm = () => {
   // если форма большая, то имеет смысл хранить данные в одном объекте
   // const [formData, setFormData] = useState("");
 
+  // 2.добавление книги вручную
   const handleSubmit = (event) => {
     event.preventDefault();
     if (title && author) {
@@ -48,7 +51,7 @@ const BookForm = () => {
       // };
 
       // то же самое что и сверху
-      const book = createBookWithID({ title, author });
+      const book = createBookWithID({ title, author }, 'manual');
 
       dispatch(addBook(book));
       setTitle("");
@@ -56,12 +59,14 @@ const BookForm = () => {
     }
   };
 
+
+  // 3.добавление книги через API backend
   const handleAddRandomBookAPI = async () => {
     try {
       const res = await axios.get("http://localhost:4000/random-book");
       // ? для того чтобы не было ошиьок а был толко undefined
       if (res?.data?.title && res?.data?.author) {
-        dispatch(addBook(createBookWithID(res.data)));
+        dispatch(addBook(createBookWithID(res.data, 'API')));
       }
     } catch (error) {
       console.log("Error fetching random book", error);

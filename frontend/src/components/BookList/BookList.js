@@ -3,7 +3,11 @@ import "./BookList.css";
 import { useSelector, useDispatch } from "react-redux";
 // import { deleteBook, toggleFavorite } from "../../redux/books/actionCreators";
 // меняем путь нового redux slice для функции
-import { deleteBook, toggleFavorite, selectBooks } from "../../redux/slices/booksSlice";
+import {
+  deleteBook,
+  toggleFavorite,
+  selectBooks,
+} from "../../redux/slices/booksSlice";
 import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
 import {
   selectTitleFilter,
@@ -76,8 +80,9 @@ const BookList = () => {
               <div className="book-info">
                 {/* {++i}. {book.title} by 
                 <strong>{book.author}</strong> */}
-                {++i}. {highlightMatch(book.title, titleFilter)} {' '} by{" "}
-                <strong>{highlightMatch(book.author, authorFilter)}</strong>
+                {++i}. {highlightMatch(book.title, titleFilter)} by{" "}
+                <strong>{highlightMatch(book.author, authorFilter)}</strong>{" "}
+                {"  "} ({book.source})
               </div>
 
               <div className="book-actions">
