@@ -8,6 +8,8 @@ import { addBook } from "../../redux/slices/booksSlice";
 // import { v4 as uuidv4 } from "uuid";
 import booksData from "../../data/books.json";
 import createBookWithID from "../../utils/createBookWithID";
+// пакет "axios" для отправки запросов на backend вместо fetch()
+import axios from "axios";
 
 const BookForm = () => {
   const [title, setTitle] = useState("");
@@ -37,7 +39,6 @@ const BookForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     if (title && author) {
       // const book = {
       //   title: title,
@@ -52,6 +53,18 @@ const BookForm = () => {
       dispatch(addBook(book));
       setTitle("");
       setAuthor("");
+    }
+  };
+
+  const handleAddRandomBookAPI = async () => {
+    try {
+      const res = await axios.get("http://localhost:4000/random-book");
+      // ? для того чтобы не было ошиьок а был толко undefined
+      if (res?.data?.title && res?.data?.author) {
+        dispatch(addBook(createBookWithID(res.data)));
+      }
+    } catch (error) {
+      console.log("Error fetching random book", error);
     }
   };
 
@@ -79,6 +92,9 @@ const BookForm = () => {
         </div>
         <button type="submit">Add Book</button>
         <button onClick={handleAddRandomBook}>Add Random</button>
+        <button type="button" onClick={handleAddRandomBookAPI}>
+          Add Random API
+        </button>
       </form>
     </div>
   );
