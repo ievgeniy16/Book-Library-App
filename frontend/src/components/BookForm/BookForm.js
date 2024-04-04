@@ -4,19 +4,17 @@ import "./BookForm.css";
 import { useDispatch } from "react-redux";
 // import { addBook } from "../../redux/books/actionCreators";
 // меняем путь нового redux slice для функции
-import { addBook } from "../../redux/slices/booksSlice";
+import { addBook, thunkFunction } from "../../redux/slices/booksSlice";
 // import { v4 as uuidv4 } from "uuid";
 import booksData from "../../data/books.json";
 import createBookWithID from "../../utils/createBookWithID";
-// пакет "axios" для отправки запросов на backend вместо fetch()
-import axios from "axios";
+
 
 const BookForm = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   // hook useDispatch()
   const dispatch = useDispatch();
-
 
   // 1.добавление книги случайным образом
   const handleAddRandomBook = () => {
@@ -30,7 +28,7 @@ const BookForm = () => {
     // };
 
     // то же самое что и сверху
-    const randomBookWithID = createBookWithID(randomBook, 'random');
+    const randomBookWithID = createBookWithID(randomBook, "random");
 
     // send redux store
     dispatch(addBook(randomBookWithID));
@@ -51,7 +49,7 @@ const BookForm = () => {
       // };
 
       // то же самое что и сверху
-      const book = createBookWithID({ title, author }, 'manual');
+      const book = createBookWithID({ title, author }, "manual");
 
       dispatch(addBook(book));
       setTitle("");
@@ -59,18 +57,9 @@ const BookForm = () => {
     }
   };
 
-
   // 3.добавление книги через API backend
-  const handleAddRandomBookAPI = async () => {
-    try {
-      const res = await axios.get("http://localhost:4000/random-book");
-      // ? для того чтобы не было ошиьок а был толко undefined
-      if (res?.data?.title && res?.data?.author) {
-        dispatch(addBook(createBookWithID(res.data, 'API')));
-      }
-    } catch (error) {
-      console.log("Error fetching random book", error);
-    }
+  const handleAddRandomBookAPI = () => {
+    dispatch(thunkFunction);
   };
 
   return (
