@@ -4,11 +4,10 @@ import "./BookForm.css";
 import { useDispatch } from "react-redux";
 // import { addBook } from "../../redux/books/actionCreators";
 // меняем путь нового redux slice для функции
-import { addBook, thunkFunction } from "../../redux/slices/booksSlice";
+import { addBook, thunkFunction, fetchBook } from "../../redux/slices/booksSlice";
 // import { v4 as uuidv4 } from "uuid";
 import booksData from "../../data/books.json";
 import createBookWithID from "../../utils/createBookWithID";
-
 
 const BookForm = () => {
   const [title, setTitle] = useState("");
@@ -59,7 +58,9 @@ const BookForm = () => {
 
   // 3.добавление книги через API backend
   const handleAddRandomBookAPI = () => {
-    dispatch(thunkFunction);
+    // отправляем функцию в redux store
+    // dispatch(thunkFunction);
+    dispatch(fetchBook());
   };
 
   return (
