@@ -11,12 +11,12 @@ const errorSlice = createSlice({
     },
     clearError: () => {
       return initialState;
-    },
-  },
+    }
+  }
 });
 
 // деструкторизация объекта errorSlice
-export const { setError, clearError } = errorSlice;
+export const { setError, clearError } = errorSlice.actions;
 
 export const selectErrorMessage = (state) => state.error;
 

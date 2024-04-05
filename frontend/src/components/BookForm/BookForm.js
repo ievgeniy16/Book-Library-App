@@ -4,10 +4,15 @@ import "./BookForm.css";
 import { useDispatch } from "react-redux";
 // import { addBook } from "../../redux/books/actionCreators";
 // меняем путь нового redux slice для функции
-import { addBook, thunkFunction, fetchBook } from "../../redux/slices/booksSlice";
+import {
+  addBook,
+  thunkFunction,
+  fetchBook,
+} from "../../redux/slices/booksSlice";
 // import { v4 as uuidv4 } from "uuid";
 import booksData from "../../data/books.json";
 import createBookWithID from "../../utils/createBookWithID";
+import { setError } from "../../redux/slices/errorSlice";
 
 const BookForm = () => {
   const [title, setTitle] = useState("");
@@ -39,20 +44,14 @@ const BookForm = () => {
   // 2.добавление книги вручную
   const handleSubmit = (event) => {
     event.preventDefault();
+
     if (title && author) {
-      // const book = {
-      //   title: title,
-      //   author: author,
-      //   id: uuidv4(),
-      //   isFavorite: false,
-      // };
-
-      // то же самое что и сверху
       const book = createBookWithID({ title, author }, "manual");
-
       dispatch(addBook(book));
       setTitle("");
       setAuthor("");
+    } else {
+      dispatch(setError("You must fill title and author!"));
     }
   };
 
