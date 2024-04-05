@@ -2,14 +2,23 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // пакет "axios" для отправки запросов на backend вместо fetch()
 import axios from "axios";
 import createBookWithID from "../../utils/createBookWithID";
+import { setError } from "./errorSlice";
 
 const initialState = [];
 
-export const fetchBook = createAsyncThunk("books/fetchBook", async () => {
-  const res = await axios.get("http://localhost:4000/random-book");
-  console.log(res.data);
-  return res.data;
-});
+export const fetchBook = createAsyncThunk(
+  "books/fetchBook",
+  async (url, thunkAPI) => {
+    try {
+      const res = await axios.get(url);
+      return res.data;
+    } catch (error) {
+      thunkAPI.dispatch(setError(error.message));
+      // чтобы не попасть в reducer ниже в функцию extraReducers
+      throw error;
+    }
+  }
+);
 
 const booksSlice = createSlice({
   name: "books",
