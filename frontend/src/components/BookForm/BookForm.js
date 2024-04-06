@@ -13,10 +13,12 @@ import {
 import booksData from "../../data/books.json";
 import createBookWithID from "../../utils/createBookWithID";
 import { setError } from "../../redux/slices/errorSlice";
+import { FaSpinner } from "react-icons/fa";
 
 const BookForm = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   // hook useDispatch()
   const dispatch = useDispatch();
 
@@ -47,6 +49,7 @@ const BookForm = () => {
 
     if (title && author) {
       const book = createBookWithID({ title, author }, "manual");
+      // dispatch возвращает объект
       dispatch(addBook(book));
       setTitle("");
       setAuthor("");
@@ -56,10 +59,16 @@ const BookForm = () => {
   };
 
   // 3.добавление книги через API backend
-  const handleAddRandomBookAPI = () => {
+  const handleAddRandomBookAPI = async () => {
     // отправляем функцию в redux store
     // dispatch(thunkFunction);
-    dispatch(fetchBook('http://localhost:4000/random-book'));
+    try {
+      setIsLoading(true);
+      // dispatch возврашает Promise
+      await dispatch(fetchBook("http://localhost:4000/random-book-delayed"));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -86,8 +95,19 @@ const BookForm = () => {
         </div>
         <button type="submit">Add Book</button>
         <button onClick={handleAddRandomBook}>Add Random</button>
-        <button type="button" onClick={handleAddRandomBookAPI}>
-          Add Random API
+        <button
+          type="button"
+          onClick={handleAddRandomBookAPI}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <>
+              <span>Loading book...</span>
+              <FaSpinner className="spinner" />
+            </>
+          ) : (
+            "Add Random API"
+          )}
         </button>
       </form>
     </div>
