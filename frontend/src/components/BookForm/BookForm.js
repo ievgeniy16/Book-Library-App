@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 // меняем путь нового redux slice для функции
 import {
   addBook,
-  thunkFunction,
   fetchBook,
 } from "../../redux/slices/booksSlice";
 // import { v4 as uuidv4 } from "uuid";
@@ -94,7 +93,7 @@ const BookForm = () => {
           />
         </div>
         <button type="submit">Add Book</button>
-        <button onClick={handleAddRandomBook}>Add Random</button>
+        <button type="button" onClick={handleAddRandomBook}>Add Random</button>
         <button
           type="button"
           onClick={handleAddRandomBookAPI}
